@@ -4,7 +4,7 @@ description: Create, modify, repair, review, migrate, and validate import-ready 
 license: MIT
 metadata:
   author: Kegbea
-  version: "0.1.0"
+  version: "0.1.1"
 ---
 
 # Dify Workflow DSL

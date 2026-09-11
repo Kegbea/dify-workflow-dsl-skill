@@ -16,7 +16,7 @@
 
 | 组件 | 基线 |
 |---|---|
-| Skill | `0.1.0` |
+| Skill | `0.1.1` |
 | Dify | `1.17.x` |
 | App DSL | `0.7.0` |
 | Python | `3.9+` |
@@ -55,6 +55,22 @@ Copy-Item -Recurse -Force dify-workflow-dsl-skill "$HOME/.codex/skills/dify-work
 ## 示例
 
 [`examples/`](examples/README.md) 包含脱敏后的复杂 Workflow 和 Chatflow。所有以 `REPLACE_WITH_` 开头的值都是工作区绑定占位符，导入前必须替换。
+
+### 由 Codex 使用本 Skill 生成
+
+下面两个应用是让 Codex 加载 `$dify-workflow-dsl` 后，根据自然语言需求生成，再导入 Dify 并截取画布得到的真实示例。公开下载的 YAML 已进行脱敏；模型、插件和知识库绑定需要在目标工作区重新连接。
+
+#### 复杂智能客服 Chatflow
+
+[下载 Chatflow DSL](examples/customer-service-chatflow.example.yml)。包含规则快速通道、意图与情绪分析、人工转接、企业知识库检索和结构化响应。
+
+![Codex 使用本 Skill 生成的智能客服 Chatflow Dify 画布](docs/images/customer-service-chatflow-canvas.png)
+
+#### 复杂用户画像 Workflow
+
+[下载 Workflow DSL](examples/user-profile-workflow.example.yml)。并行分析文本、图片和行为事件，并执行授权控制、证据追踪、画像合并及质量检查。
+
+![Codex 使用本 Skill 生成的用户画像 Workflow Dify 画布](docs/images/user-profile-workflow-canvas.png)
 
 ## 校验
 

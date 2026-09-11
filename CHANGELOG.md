@@ -4,12 +4,13 @@ This project follows Semantic Versioning.
 
 ## [Unreleased]
 
+## [0.1.1] - 2026-09-11
+
 ### Added
 
-- Bilingual project documentation.
-- Sanitized complex Workflow and Chatflow examples.
-- Release packaging and open-source contribution guidance.
-- GitHub Actions checks for Python 3.9, 3.11, and 3.13.
+- Dify canvas screenshots for the two complex examples.
+- Explicit documentation that Codex generated the examples using this Skill.
+- Direct YAML download links beside each canvas preview.
 
 ## [0.1.0] - 2026-09-11
 
@@ -21,3 +22,7 @@ This project follows Semantic Versioning.
 - Plugin-free minimal templates.
 - Strict static validator with secret checks.
 - Validator unit tests.
+- Bilingual project documentation.
+- Sanitized complex Workflow and Chatflow examples.
+- Release packaging and open-source contribution guidance.
+- GitHub Actions checks for Python 3.9, 3.11, and 3.13.
