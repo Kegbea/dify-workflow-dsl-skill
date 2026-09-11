@@ -1,0 +1,984 @@
+app:
+  description: Sanitized reference example. Replace workspace bindings before import.
+  icon: 2f0d1c70-dcbe-4d33-8229-1c5bd83550d7
+  icon_background: ''
+  icon_type: image
+  mode: advanced-chat
+  name: Complex Customer Service Chatflow Example
+  use_icon_as_answer_icon: false
+dependencies: []
+kind: app
+version: 0.7.0
+workflow:
+  conversation_variables: []
+  environment_variables: []
+  features:
+    file_upload:
+      allowed_file_extensions:
+      - .JPG
+      - .JPEG
+      - .PNG
+      - .GIF
+      - .WEBP
+      - .SVG
+      allowed_file_types:
+      - image
+      allowed_file_upload_methods:
+      - local_file
+      - remote_url
+      enabled: false
+      fileUploadConfig:
+        attachment_image_file_size_limit: 2
+        audio_file_size_limit: 50
+        batch_count_limit: 5
+        file_size_limit: 15
+        file_upload_limit: 50
+        image_file_batch_limit: 10
+        image_file_size_limit: 10
+        single_chunk_attachment_limit: 10
+        video_file_size_limit: 100
+        workflow_file_upload_limit: 10
+      image:
+        enabled: false
+        number_limits: 3
+        transfer_methods:
+        - local_file
+        - remote_url
+      number_limits: 3
+    opening_statement: ''
+    retriever_resource:
+      enabled: false
+    sensitive_word_avoidance:
+      enabled: false
+    speech_to_text:
+      enabled: false
+    suggested_questions: []
+    suggested_questions_after_answer:
+      enabled: false
+    text_to_speech:
+      enabled: false
+      language: ''
+      voice: ''
+  graph:
+    edges:
+    - id: start_source_preprocess
+      type: custom
+      source: start
+      sourceHandle: source
+      target: preprocess
+      targetHandle: target
+      selected: false
+      zIndex: 0
+      data:
+        sourceType: start
+        targetType: code
+        isInIteration: false
+        isInLoop: false
+    - id: preprocess_source_fast_route
+      type: custom
+      source: preprocess
+      sourceHandle: source
+      target: fast_route
+      targetHandle: target
+      selected: false
+      zIndex: 0
+      data:
+        sourceType: code
+        targetType: if-else
+        isInIteration: false
+        isInLoop: false
+    - id: fast_route_true_fast_answer
+      type: custom
+      source: fast_route
+      sourceHandle: 'true'
+      target: fast_answer
+      targetHandle: target
+      selected: false
+      zIndex: 0
+      data:
+        sourceType: if-else
+        targetType: answer
+        isInIteration: false
+        isInLoop: false
+    - id: fast_route_false_early_handoff_route
+      type: custom
+      source: fast_route
+      sourceHandle: 'false'
+      target: early_handoff_route
+      targetHandle: target
+      selected: false
+      zIndex: 0
+      data:
+        sourceType: if-else
+        targetType: if-else
+        isInIteration: false
+        isInLoop: false
+    - id: early_handoff_route_true_early_handoff
+      type: custom
+      source: early_handoff_route
+      sourceHandle: 'true'
+      target: early_handoff
+      targetHandle: target
+      selected: false
+      zIndex: 0
+      data:
+        sourceType: if-else
+        targetType: code
+        isInIteration: false
+        isInLoop: false
+    - id: early_handoff_source_early_handoff_answer
+      type: custom
+      source: early_handoff
+      sourceHandle: source
+      target: early_handoff_answer
+      targetHandle: target
+      selected: false
+      zIndex: 0
+      data:
+        sourceType: code
+        targetType: answer
+        isInIteration: false
+        isInLoop: false
+    - id: early_handoff_route_false_core_llm
+      type: custom
+      source: early_handoff_route
+      sourceHandle: 'false'
+      target: core_llm
+      targetHandle: target
+      selected: false
+      zIndex: 0
+      data:
+        sourceType: if-else
+        targetType: llm
+        isInIteration: false
+        isInLoop: false
+    - id: core_llm_source_core_parse
+      type: custom
+      source: core_llm
+      sourceHandle: source
+      target: core_parse
+      targetHandle: target
+      selected: false
+      zIndex: 0
+      data:
+        sourceType: llm
+        targetType: code
+        isInIteration: false
+        isInLoop: false
+    - id: core_parse_source_risk_route
+      type: custom
+      source: core_parse
+      sourceHandle: source
+      target: risk_route
+      targetHandle: target
+      selected: false
+      zIndex: 0
+      data:
+        sourceType: code
+        targetType: if-else
+        isInIteration: false
+        isInLoop: false
+    - id: risk_route_true_risk_handoff
+      type: custom
+      source: risk_route
+      sourceHandle: 'true'
+      target: risk_handoff
+      targetHandle: target
+      selected: false
+      zIndex: 0
+      data:
+        sourceType: if-else
+        targetType: code
+        isInIteration: false
+        isInLoop: false
+    - id: risk_handoff_source_risk_handoff_answer
+      type: custom
+      source: risk_handoff
+      sourceHandle: source
+      target: risk_handoff_answer
+      targetHandle: target
+      selected: false
+      zIndex: 0
+      data:
+        sourceType: code
+        targetType: answer
+        isInIteration: false
+        isInLoop: false
+    - id: risk_route_false_knowledge_route
+      type: custom
+      source: risk_route
+      sourceHandle: 'false'
+      target: knowledge_route
+      targetHandle: target
+      selected: false
+      zIndex: 0
+      data:
+        sourceType: if-else
+        targetType: if-else
+        isInIteration: false
+        isInLoop: false
+    - id: knowledge_route_false_direct_finalize
+      type: custom
+      source: knowledge_route
+      sourceHandle: 'false'
+      target: direct_finalize
+      targetHandle: target
+      selected: false
+      zIndex: 0
+      data:
+        sourceType: if-else
+        targetType: code
+        isInIteration: false
+        isInLoop: false
+    - id: direct_finalize_source_direct_answer
+      type: custom
+      source: direct_finalize
+      sourceHandle: source
+      target: direct_answer
+      targetHandle: target
+      selected: false
+      zIndex: 0
+      data:
+        sourceType: code
+        targetType: answer
+        isInIteration: false
+        isInLoop: false
+    - id: knowledge_route_true_kb_retrieval
+      type: custom
+      source: knowledge_route
+      sourceHandle: 'true'
+      target: kb_retrieval
+      targetHandle: target
+      selected: false
+      zIndex: 0
+      data:
+        sourceType: if-else
+        targetType: knowledge-retrieval
+        isInIteration: false
+        isInLoop: false
+    - id: kb_retrieval_source_kb_llm
+      type: custom
+      source: kb_retrieval
+      sourceHandle: source
+      target: kb_llm
+      targetHandle: target
+      selected: false
+      zIndex: 0
+      data:
+        sourceType: knowledge-retrieval
+        targetType: llm
+        isInIteration: false
+        isInLoop: false
+    - id: kb_llm_source_kb_finalize
+      type: custom
+      source: kb_llm
+      sourceHandle: source
+      target: kb_finalize
+      targetHandle: target
+      selected: false
+      zIndex: 0
+      data:
+        sourceType: llm
+        targetType: code
+        isInIteration: false
+        isInLoop: false
+    - id: kb_finalize_source_kb_answer
+      type: custom
+      source: kb_finalize
+      sourceHandle: source
+      target: kb_answer
+      targetHandle: target
+      selected: false
+      zIndex: 0
+      data:
+        sourceType: code
+        targetType: answer
+        isInIteration: false
+        isInLoop: false
+    nodes:
+    - id: start
+      type: custom
+      data:
+        selected: false
+        title: 用户消息
+        type: start
+        variables: []
+      position:
+        x: 0
+        y: 320
+      positionAbsolute:
+        x: 0
+        y: 320
+      width: 242
+      height: 73
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      zIndex: 0
+    - id: preprocess
+      type: custom
+      data:
+        type: code
+        title: 规则预处理
+        desc: 空消息、问候、确认和明确转人工请求不消耗模型调用。
+        code_language: python3
+        code: "import json\nimport re\n\n\ndef result(reply, intent, route, signals=None):\n\
+          \    return json.dumps({\n        \"reply\": reply,\n        \"primary_intent\"\
+          : intent,\n        \"route\": route,\n        \"sentiment\": \"neutral\"\
+          ,\n        \"urgency\": \"normal\",\n        \"handoff_required\": route\
+          \ == \"handoff\",\n        \"handoff_signals\": signals or [],\n       \
+          \ \"answer_source\": \"rule\",\n        \"collected_info\": {},\n      \
+          \  \"missing_fields\": [],\n        \"follow_up_question\": \"\",\n    \
+          \    \"parse_status\": \"rule\",\n    }, ensure_ascii=False)\n\n\ndef main(query):\n\
+          \    current = str(query or \"\").strip()\n    compact = re.sub(r\"[\\s，。！？!?、~～,.]+\"\
+          , \"\", current).lower()\n    greetings = {\"你好\", \"您好\", \"在吗\", \"有人吗\"\
+          , \"嗨\", \"哈喽\", \"hello\", \"hi\"}\n    thanks = {\"好的\", \"好\", \"收到\"\
+          , \"明白了\", \"知道了\", \"谢谢\", \"感谢\", \"再见\"}\n    negative_handoff = any(term\
+          \ in compact for term in (\n        \"不用转人工\", \"不要转人工\", \"不需要人工\", \"\
+          先不转人工\", \"不用找客服\",\n    ))\n    human_terms = (\n        \"转人工\", \"人工客服\"\
+          , \"找客服\", \"找顾问\", \"投诉\", \"人工处理\",\n        \"让人联系我\", \"让同事联系我\", \"\
+          安排顾问\",\n    )\n\n    if not current:\n        return {\n            \"\
+          route\": \"fast\",\n            \"normalized_query\": \"\",\n          \
+          \  \"fast_result\": result(\"请告诉我您想咨询的问题，我会先帮您判断并处理。\", \"empty\", \"fast\"\
+          ),\n        }\n    if compact in greetings:\n        return {\n        \
+          \    \"route\": \"fast\",\n            \"normalized_query\": current,\n\
+          \            \"fast_result\": result(\"您好，请告诉我您想咨询的产品、服务或售后问题。\", \"greeting\"\
+          , \"fast\"),\n        }\n    if compact in thanks:\n        return {\n \
+          \           \"route\": \"fast\",\n            \"normalized_query\": current,\n\
+          \            \"fast_result\": result(\"好的，如有新的问题可以继续告诉我。\", \"acknowledgement\"\
+          , \"fast\"),\n        }\n    if not negative_handoff and any(term in compact\
+          \ for term in human_terms):\n        return {\n            \"route\": \"\
+          handoff\",\n            \"normalized_query\": current,\n            \"fast_result\"\
+          : result(\n                \"我已记录您的人工服务请求，将为您转接人工客服继续处理。\",\n          \
+          \      \"human_request\",\n                \"handoff\",\n              \
+          \  [\"explicit_human_request\"],\n            ),\n        }\n    return\
+          \ {\"route\": \"core\", \"normalized_query\": current, \"fast_result\":\
+          \ \"\"}\n"
+        variables:
+        - variable: query
+          value_selector:
+          - sys
+          - query
+        outputs:
+          route:
+            type: string
+            children: null
+          normalized_query:
+            type: string
+            children: null
+          fast_result:
+            type: string
+            children: null
+        selected: false
+      position:
+        x: 300
+        y: 320
+      positionAbsolute:
+        x: 300
+        y: 320
+      width: 242
+      height: 130
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      zIndex: 0
+    - id: fast_route
+      type: custom
+      data:
+        type: if-else
+        title: 快速回复判断
+        cases:
+        - id: 'true'
+          case_id: 'true'
+          logical_operator: and
+          conditions:
+          - id: c5d8477d-9ad4-57e6-b6dd-adf611d1b58d
+            variable_selector:
+            - preprocess
+            - route
+            comparison_operator: is
+            value: fast
+            varType: string
+        selected: false
+      position:
+        x: 600
+        y: 320
+      positionAbsolute:
+        x: 600
+        y: 320
+      width: 242
+      height: 150
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      zIndex: 0
+    - id: fast_answer
+      type: custom
+      data:
+        type: answer
+        title: 规则快速回复
+        answer: '{{#preprocess.fast_result#}}'
+        variables: []
+        selected: false
+      position:
+        x: 900
+        y: 40
+      positionAbsolute:
+        x: 900
+        y: 40
+      width: 242
+      height: 100
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      zIndex: 0
+    - id: early_handoff_route
+      type: custom
+      data:
+        type: if-else
+        title: 显式人工请求判断
+        cases:
+        - id: 'true'
+          case_id: 'true'
+          logical_operator: and
+          conditions:
+          - id: 48ed6446-f809-501c-a991-c7b78a5f90cc
+            variable_selector:
+            - preprocess
+            - route
+            comparison_operator: is
+            value: handoff
+            varType: string
+        selected: false
+      position:
+        x: 900
+        y: 360
+      positionAbsolute:
+        x: 900
+        y: 360
+      width: 242
+      height: 150
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      zIndex: 0
+    - id: early_handoff
+      type: custom
+      data:
+        type: code
+        title: 规则转人工封装
+        desc: 生成结构化人工交接摘要。
+        code_language: python3
+        code: "import json\n\n\ndef main(source_result):\n    try:\n        data =\
+          \ json.loads(str(source_result or \"{}\"))\n    except Exception:\n    \
+          \    data = {}\n    data[\"route\"] = \"handoff\"\n    data[\"handoff_required\"\
+          ] = True\n    data[\"answer_source\"] = data.get(\"answer_source\") or \"\
+          rule\"\n    if not str(data.get(\"reply\") or \"\").strip():\n        data[\"\
+          reply\"] = \"我已记录您的问题，将转接人工客服继续处理。\"\n    data[\"handoff_summary\"] = {\n\
+          \        \"intent\": data.get(\"primary_intent\") or \"general_inquiry\"\
+          ,\n        \"urgency\": data.get(\"urgency\") or \"normal\",\n        \"\
+          signals\": data.get(\"handoff_signals\") or [],\n        \"collected_info\"\
+          : data.get(\"collected_info\") or {},\n    }\n    return {\"result\": json.dumps(data,\
+          \ ensure_ascii=False)}\n"
+        variables:
+        - variable: source_result
+          value_selector:
+          - preprocess
+          - fast_result
+        outputs:
+          result:
+            type: string
+            children: null
+        selected: false
+      position:
+        x: 1200
+        y: 180
+      positionAbsolute:
+        x: 1200
+        y: 180
+      width: 242
+      height: 115
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      zIndex: 0
+    - id: early_handoff_answer
+      type: custom
+      data:
+        type: answer
+        title: 规则转人工回复
+        answer: '{{#early_handoff.result#}}'
+        variables: []
+        selected: false
+      position:
+        x: 1500
+        y: 180
+      positionAbsolute:
+        x: 1500
+        y: 180
+      width: 242
+      height: 100
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      zIndex: 0
+    - id: core_llm
+      type: custom
+      data:
+        type: llm
+        title: 意图、情绪与风险分析
+        model:
+          completion_params:
+            temperature: 0.2
+          mode: chat
+          name: REPLACE_WITH_MODEL_NAME
+          provider: REPLACE_WITH_MODEL_PROVIDER
+        context:
+          enabled: false
+          variable_selector: []
+        memory:
+          window:
+            enabled: true
+            size: 8
+          query_prompt_template: '{{#sys.query#}}
+
+
+            {{#sys.files#}}'
+          role_prefix:
+            user: ''
+            assistant: ''
+        prompt_template:
+        - id: fff5fdea-8462-5f2a-b0f9-76c036ad763f
+          role: system
+          text: "你是企业智能客服中枢。一次调用同时完成：识别意图、风险判断、信息提取、回复草拟和路由决策。\n\n工作规则：\n1. 只依据用户本轮消息与对话记忆，不确定的信息必须留空，禁止编造价格、库存、合同、交期、政策和企业事实。\n\
+            2. route 只能是 direct、knowledge 或 handoff：\n   - 企业介绍、地址、营业时间、服务范围、流程、产品事实选择\
+            \ knowledge；\n   - 明确要求人工、投诉、退款争议、隐私安全、法律合规、威胁、自伤他伤、连续无法解决选择 handoff；\n\
+            \   - 需求澄清、一般咨询、闲聊和可以安全直接回答的问题选择 direct。\n3. 回复简洁自然；需要补充信息时每轮最多追问两个最关键字段。\n\
+            4. sentiment 只能是 positive、neutral、negative；urgency 只能是 low、normal、high、critical。\n\
+            5. collected_info 仅放用户明确提供的信息。missing_fields 仅放下一步确实需要的字段。\n6. handoff_required\
+            \ 必须与 route 是否为 handoff 一致。handoff_signals 可选：explicit_human_request、complaint、refund_dispute、privacy_security、legal_compliance、safety_risk、repeated_unresolved。\n\
+            \n只输出一个合法 JSON 对象，不要 Markdown，不要解释：\n{\n  \"reply\": \"给用户看的回复\",\n  \"\
+            primary_intent\": \"意图名称\",\n  \"route\": \"direct|knowledge|handoff\"\
+            ,\n  \"sentiment\": \"positive|neutral|negative\",\n  \"urgency\": \"\
+            low|normal|high|critical\",\n  \"handoff_required\": false,\n  \"handoff_signals\"\
+            : [],\n  \"answer_source\": \"model|knowledge|rule\",\n  \"collected_info\"\
+            : {},\n  \"missing_fields\": [],\n  \"follow_up_question\": \"\",\n  \"\
+            reason_code\": \"简短机器可读原因\"\n}"
+        - id: 751eef78-1499-58f0-9468-d6e77531bc09
+          role: user
+          text: '用户本轮消息：
+
+            {{#preprocess.normalized_query#}}'
+        vision:
+          enabled: false
+        selected: false
+      position:
+        x: 1200
+        y: 520
+      positionAbsolute:
+        x: 1200
+        y: 520
+      width: 242
+      height: 100
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      zIndex: 0
+    - id: core_parse
+      type: custom
+      data:
+        type: code
+        title: 模型结果校验与路由
+        desc: 清洗模型 JSON、约束枚举并执行高风险兜底路由。
+        code_language: python3
+        code: "import json\nimport re\n\n\nROUTES = {\"direct\", \"knowledge\", \"\
+          handoff\"}\nSENTIMENTS = {\"positive\", \"neutral\", \"negative\"}\nURGENCIES\
+          \ = {\"low\", \"normal\", \"high\", \"critical\"}\nSIGNALS = {\n    \"explicit_human_request\"\
+          , \"complaint\", \"refund_dispute\", \"privacy_security\",\n    \"legal_compliance\"\
+          , \"safety_risk\", \"repeated_unresolved\",\n}\n\n\ndef load(raw):\n   \
+          \ text = re.sub(r\"^```(?:json)?\\s*|\\s*```$\", \"\", str(raw or \"\").strip(),\
+          \ flags=re.I)\n    start, end = text.find(\"{\"), text.rfind(\"}\")\n  \
+          \  if start < 0 or end <= start:\n        return {}\n    try:\n        value\
+          \ = json.loads(text[start:end + 1])\n        return value if isinstance(value,\
+          \ dict) else {}\n    except Exception:\n        return {}\n\n\ndef clean_list(value):\n\
+          \    if not isinstance(value, list):\n        return []\n    return list(dict.fromkeys(str(item).strip()\
+          \ for item in value if str(item).strip()))\n\n\ndef main(raw_text):\n  \
+          \  data = load(raw_text)\n    route = str(data.get(\"route\") or \"direct\"\
+          ).strip().lower()\n    route = route if route in ROUTES else \"direct\"\n\
+          \    signals = [item for item in clean_list(data.get(\"handoff_signals\"\
+          )) if item in SIGNALS]\n    if signals and any(item in signals for item\
+          \ in (\n        \"explicit_human_request\", \"refund_dispute\", \"privacy_security\"\
+          ,\n        \"legal_compliance\", \"safety_risk\",\n    )):\n        route\
+          \ = \"handoff\"\n    sentiment = str(data.get(\"sentiment\") or \"neutral\"\
+          ).lower()\n    sentiment = sentiment if sentiment in SENTIMENTS else \"\
+          neutral\"\n    urgency = str(data.get(\"urgency\") or \"normal\").lower()\n\
+          \    urgency = urgency if urgency in URGENCIES else \"normal\"\n    info\
+          \ = data.get(\"collected_info\") if isinstance(data.get(\"collected_info\"\
+          ), dict) else {}\n    info = {str(k): v for k, v in info.items() if v not\
+          \ in (None, \"\", [], {})}\n    reply = str(data.get(\"reply\") or \"\"\
+          ).strip()\n    if not reply:\n        reply = \"我还需要了解更具体的问题，请补充您希望处理的事项。\"\
+          \n    result = {\n        \"reply\": reply,\n        \"primary_intent\"\
+          : str(data.get(\"primary_intent\") or \"general_inquiry\").strip(),\n  \
+          \      \"route\": route,\n        \"sentiment\": sentiment,\n        \"\
+          urgency\": urgency,\n        \"handoff_required\": route == \"handoff\"\
+          ,\n        \"handoff_signals\": signals,\n        \"answer_source\": \"\
+          knowledge\" if route == \"knowledge\" else \"model\",\n        \"collected_info\"\
+          : info,\n        \"missing_fields\": clean_list(data.get(\"missing_fields\"\
+          )),\n        \"follow_up_question\": str(data.get(\"follow_up_question\"\
+          ) or \"\").strip(),\n        \"reason_code\": str(data.get(\"reason_code\"\
+          ) or \"model_route\").strip(),\n        \"parse_status\": \"ok\" if data\
+          \ else \"fallback\",\n    }\n    return {\"route\": route, \"result\": json.dumps(result,\
+          \ ensure_ascii=False)}\n"
+        variables:
+        - variable: raw_text
+          value_selector:
+          - core_llm
+          - text
+        outputs:
+          route:
+            type: string
+            children: null
+          result:
+            type: string
+            children: null
+        selected: false
+      position:
+        x: 1500
+        y: 520
+      positionAbsolute:
+        x: 1500
+        y: 520
+      width: 242
+      height: 130
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      zIndex: 0
+    - id: risk_route
+      type: custom
+      data:
+        type: if-else
+        title: 是否需要人工处理
+        cases:
+        - id: 'true'
+          case_id: 'true'
+          logical_operator: and
+          conditions:
+          - id: bc4efe93-0d0f-5a78-8527-23b054deb951
+            variable_selector:
+            - core_parse
+            - route
+            comparison_operator: is
+            value: handoff
+            varType: string
+        selected: false
+      position:
+        x: 1800
+        y: 520
+      positionAbsolute:
+        x: 1800
+        y: 520
+      width: 242
+      height: 150
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      zIndex: 0
+    - id: risk_handoff
+      type: custom
+      data:
+        type: code
+        title: 风险转人工封装
+        desc: 保留模型分析结果并生成客服交接摘要。
+        code_language: python3
+        code: "import json\n\n\ndef main(source_result):\n    try:\n        data =\
+          \ json.loads(str(source_result or \"{}\"))\n    except Exception:\n    \
+          \    data = {}\n    data[\"route\"] = \"handoff\"\n    data[\"handoff_required\"\
+          ] = True\n    data[\"answer_source\"] = data.get(\"answer_source\") or \"\
+          rule\"\n    if not str(data.get(\"reply\") or \"\").strip():\n        data[\"\
+          reply\"] = \"我已记录您的问题，将转接人工客服继续处理。\"\n    data[\"handoff_summary\"] = {\n\
+          \        \"intent\": data.get(\"primary_intent\") or \"general_inquiry\"\
+          ,\n        \"urgency\": data.get(\"urgency\") or \"normal\",\n        \"\
+          signals\": data.get(\"handoff_signals\") or [],\n        \"collected_info\"\
+          : data.get(\"collected_info\") or {},\n    }\n    return {\"result\": json.dumps(data,\
+          \ ensure_ascii=False)}\n"
+        variables:
+        - variable: source_result
+          value_selector:
+          - core_parse
+          - result
+        outputs:
+          result:
+            type: string
+            children: null
+        selected: false
+      position:
+        x: 2100
+        y: 310
+      positionAbsolute:
+        x: 2100
+        y: 310
+      width: 242
+      height: 115
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      zIndex: 0
+    - id: risk_handoff_answer
+      type: custom
+      data:
+        type: answer
+        title: 风险转人工回复
+        answer: '{{#risk_handoff.result#}}'
+        variables: []
+        selected: false
+      position:
+        x: 2400
+        y: 310
+      positionAbsolute:
+        x: 2400
+        y: 310
+      width: 242
+      height: 100
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      zIndex: 0
+    - id: knowledge_route
+      type: custom
+      data:
+        type: if-else
+        title: 是否查询企业知识库
+        cases:
+        - id: 'true'
+          case_id: 'true'
+          logical_operator: and
+          conditions:
+          - id: 7e38f700-5342-5381-935d-67ee3f667cf8
+            variable_selector:
+            - core_parse
+            - route
+            comparison_operator: is
+            value: knowledge
+            varType: string
+        selected: false
+      position:
+        x: 2100
+        y: 650
+      positionAbsolute:
+        x: 2100
+        y: 650
+      width: 242
+      height: 150
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      zIndex: 0
+    - id: direct_finalize
+      type: custom
+      data:
+        type: code
+        title: 直接回复封装
+        desc: 输出稳定的结构化客服响应。
+        code_language: python3
+        code: "import json\n\n\ndef main(source_result):\n    try:\n        data =\
+          \ json.loads(str(source_result or \"{}\"))\n    except Exception:\n    \
+          \    data = {\"reply\": \"请补充您希望咨询的具体问题。\"}\n    data[\"route\"] = \"direct\"\
+          \n    data[\"answer_source\"] = \"model\"\n    return {\"result\": json.dumps(data,\
+          \ ensure_ascii=False)}\n"
+        variables:
+        - variable: source_result
+          value_selector:
+          - core_parse
+          - result
+        outputs:
+          result:
+            type: string
+            children: null
+        selected: false
+      position:
+        x: 2400
+        y: 520
+      positionAbsolute:
+        x: 2400
+        y: 520
+      width: 242
+      height: 110
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      zIndex: 0
+    - id: direct_answer
+      type: custom
+      data:
+        type: answer
+        title: 直接回复
+        answer: '{{#direct_finalize.result#}}'
+        variables: []
+        selected: false
+      position:
+        x: 2700
+        y: 520
+      positionAbsolute:
+        x: 2700
+        y: 520
+      width: 242
+      height: 100
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      zIndex: 0
+    - id: kb_retrieval
+      type: custom
+      data:
+        dataset_ids:
+        - REPLACE_WITH_DATASET_ID
+        multiple_retrieval_config:
+          reranking_enable: false
+          reranking_mode: weighted_score
+          top_k: 4
+          weights:
+            keyword_setting:
+              keyword_weight: 0.3
+            vector_setting:
+              embedding_model_name: REPLACE_WITH_MODEL_NAME
+              embedding_provider_name: REPLACE_WITH_MODEL_PROVIDER
+              vector_weight: 0.7
+            weight_type: customized
+        query_attachment_selector: []
+        query_variable_selector:
+        - preprocess
+        - normalized_query
+        retrieval_mode: multiple
+        selected: false
+        title: 企业知识库检索
+        type: knowledge-retrieval
+      position:
+        x: 2400
+        y: 800
+      positionAbsolute:
+        x: 2400
+        y: 800
+      width: 242
+      height: 120
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      zIndex: 0
+    - id: kb_llm
+      type: custom
+      data:
+        type: llm
+        title: 基于知识库回答
+        model:
+          completion_params:
+            temperature: 0.2
+          mode: chat
+          name: REPLACE_WITH_MODEL_NAME
+          provider: REPLACE_WITH_MODEL_PROVIDER
+        context:
+          enabled: true
+          variable_selector:
+          - kb_retrieval
+          - result
+        memory:
+          window:
+            enabled: false
+            size: 0
+          query_prompt_template: ''
+          role_prefix:
+            user: ''
+            assistant: ''
+        prompt_template:
+        - id: 3ecd4c3e-e39f-59bd-9703-dd8d308116d5
+          role: system
+          text: '你是企业事实核验客服。只依据知识库检索内容回答用户问题。
+
+            若检索内容不足以支持明确结论，必须说明暂未查到可靠信息，并建议转人工确认；不得用常识补全企业事实，不得编造价格、库存、合同、交期或政策。
+
+            输出一段简洁、自然、可直接发送给用户的中文回复，不使用 Markdown 标题，也不泄露内部检索过程。'
+        - id: 8e96fcd0-e91c-51d6-8bab-782fcf3258f0
+          role: user
+          text: '用户问题：
+
+            {{#preprocess.normalized_query#}}'
+        vision:
+          enabled: false
+        selected: false
+      position:
+        x: 2700
+        y: 800
+      positionAbsolute:
+        x: 2700
+        y: 800
+      width: 242
+      height: 100
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      zIndex: 0
+    - id: kb_finalize
+      type: custom
+      data:
+        type: code
+        title: 知识回复封装
+        desc: 将有依据的知识库回复写入统一客服响应。
+        code_language: python3
+        code: "import json\n\n\ndef main(core_result, knowledge_reply):\n    try:\n\
+          \        data = json.loads(str(core_result or \"{}\"))\n    except Exception:\n\
+          \        data = {}\n    reply = str(knowledge_reply or \"\").strip()\n \
+          \   if reply:\n        data[\"reply\"] = reply\n    else:\n        data[\"\
+          reply\"] = \"知识库暂未返回足够信息，我可以为您转人工进一步确认。\"\n    data[\"route\"] = \"knowledge\"\
+          \n    data[\"answer_source\"] = \"knowledge\"\n    data[\"handoff_required\"\
+          ] = False\n    return {\"result\": json.dumps(data, ensure_ascii=False)}\n"
+        variables:
+        - variable: core_result
+          value_selector:
+          - core_parse
+          - result
+        - variable: knowledge_reply
+          value_selector:
+          - kb_llm
+          - text
+        outputs:
+          result:
+            type: string
+            children: null
+        selected: false
+      position:
+        x: 3000
+        y: 800
+      positionAbsolute:
+        x: 3000
+        y: 800
+      width: 242
+      height: 120
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      zIndex: 0
+    - id: kb_answer
+      type: custom
+      data:
+        type: answer
+        title: 知识库回复
+        answer: '{{#kb_finalize.result#}}'
+        variables: []
+        selected: false
+      position:
+        x: 3300
+        y: 800
+      positionAbsolute:
+        x: 3300
+        y: 800
+      width: 242
+      height: 100
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      zIndex: 0
+    viewport:
+      x: 40
+      y: 40
+      zoom: 0.65
+  rag_pipeline_variables: []

@@ -1,0 +1,8 @@
+interface:
+  display_name: "Dify Workflow DSL"
+  short_description: "Generate and validate Dify Workflow or Chatflow DSL"
+  brand_color: "#155EEF"
+  default_prompt: "Use $dify-workflow-dsl to create an import-ready Dify Workflow or Chatflow from my requirements."
+
+policy:
+  allow_implicit_invocation: true

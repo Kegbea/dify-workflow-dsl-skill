@@ -1,0 +1,25 @@
+name: Feature request
+description: Propose a Dify node, version, or workflow capability
+title: "[Feature] "
+labels:
+  - enhancement
+body:
+  - type: textarea
+    id: use_case
+    attributes:
+      label: Use case
+      description: Describe the observable workflow behavior you need.
+    validations:
+      required: true
+  - type: input
+    id: dify_version
+    attributes:
+      label: Target Dify and App DSL versions
+      placeholder: Dify 1.17.x / App DSL 0.7.0
+    validations:
+      required: true
+  - type: textarea
+    id: export
+    attributes:
+      label: Sanitized export details
+      description: For dynamic nodes, describe or attach a sanitized target-workspace export.

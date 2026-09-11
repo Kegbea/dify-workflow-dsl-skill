@@ -1,0 +1,15 @@
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.coverage
+htmlcov/
+.venv/
+venv/
+dist/
+*.zip
+*.tar
+*.tar.gz
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/

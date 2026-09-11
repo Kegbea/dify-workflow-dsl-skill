@@ -1,0 +1,1081 @@
+app:
+  description: Sanitized reference example. Replace workspace bindings before import.
+  icon: 🤖
+  icon_background: '#FFEAD5'
+  icon_type: emoji
+  mode: workflow
+  name: Complex User Profile Workflow Example
+  use_icon_as_answer_icon: false
+dependencies: []
+kind: app
+version: 0.7.0
+workflow:
+  conversation_variables: []
+  environment_variables: []
+  features:
+    file_upload:
+      allowed_file_extensions:
+      - .JPG
+      - .JPEG
+      - .PNG
+      - .GIF
+      - .WEBP
+      - .SVG
+      allowed_file_types:
+      - image
+      allowed_file_upload_methods:
+      - local_file
+      - remote_url
+      enabled: false
+      image:
+        enabled: false
+        number_limits: 3
+        transfer_methods:
+        - local_file
+        - remote_url
+      number_limits: 3
+    opening_statement: ''
+    retriever_resource:
+      enabled: false
+    sensitive_word_avoidance:
+      enabled: false
+    speech_to_text:
+      enabled: false
+    suggested_questions: []
+    suggested_questions_after_answer:
+      enabled: false
+    text_to_speech:
+      enabled: false
+      language: ''
+      voice: ''
+  graph:
+    edges:
+    - id: start_source_preprocess
+      type: custom
+      source: start
+      sourceHandle: source
+      target: preprocess
+      targetHandle: target
+      selected: false
+      zIndex: 0
+      data:
+        sourceType: start
+        targetType: code
+        isInIteration: false
+        isInLoop: false
+    - id: preprocess_source_text_route
+      type: custom
+      source: preprocess
+      sourceHandle: source
+      target: text_route
+      targetHandle: target
+      selected: false
+      zIndex: 0
+      data:
+        sourceType: code
+        targetType: if-else
+        isInIteration: false
+        isInLoop: false
+    - id: preprocess_source_image_route
+      type: custom
+      source: preprocess
+      sourceHandle: source
+      target: image_route
+      targetHandle: target
+      selected: false
+      zIndex: 0
+      data:
+        sourceType: code
+        targetType: if-else
+        isInIteration: false
+        isInLoop: false
+    - id: preprocess_source_behavior_route
+      type: custom
+      source: preprocess
+      sourceHandle: source
+      target: behavior_route
+      targetHandle: target
+      selected: false
+      zIndex: 0
+      data:
+        sourceType: code
+        targetType: if-else
+        isInIteration: false
+        isInLoop: false
+    - id: text_route_true_text_analyze
+      type: custom
+      source: text_route
+      sourceHandle: 'true'
+      target: text_analyze
+      targetHandle: target
+      selected: false
+      zIndex: 0
+      data:
+        sourceType: if-else
+        targetType: llm
+        isInIteration: false
+        isInLoop: false
+    - id: text_route_false_text_default
+      type: custom
+      source: text_route
+      sourceHandle: 'false'
+      target: text_default
+      targetHandle: target
+      selected: false
+      zIndex: 0
+      data:
+        sourceType: if-else
+        targetType: code
+        isInIteration: false
+        isInLoop: false
+    - id: text_analyze_source_text_aggregate
+      type: custom
+      source: text_analyze
+      sourceHandle: source
+      target: text_aggregate
+      targetHandle: target
+      selected: false
+      zIndex: 0
+      data:
+        sourceType: llm
+        targetType: variable-aggregator
+        isInIteration: false
+        isInLoop: false
+    - id: text_default_source_text_aggregate
+      type: custom
+      source: text_default
+      sourceHandle: source
+      target: text_aggregate
+      targetHandle: target
+      selected: false
+      zIndex: 0
+      data:
+        sourceType: code
+        targetType: variable-aggregator
+        isInIteration: false
+        isInLoop: false
+    - id: image_route_true_image_analyze
+      type: custom
+      source: image_route
+      sourceHandle: 'true'
+      target: image_analyze
+      targetHandle: target
+      selected: false
+      zIndex: 0
+      data:
+        sourceType: if-else
+        targetType: llm
+        isInIteration: false
+        isInLoop: false
+    - id: image_route_false_image_default
+      type: custom
+      source: image_route
+      sourceHandle: 'false'
+      target: image_default
+      targetHandle: target
+      selected: false
+      zIndex: 0
+      data:
+        sourceType: if-else
+        targetType: code
+        isInIteration: false
+        isInLoop: false
+    - id: image_analyze_source_image_aggregate
+      type: custom
+      source: image_analyze
+      sourceHandle: source
+      target: image_aggregate
+      targetHandle: target
+      selected: false
+      zIndex: 0
+      data:
+        sourceType: llm
+        targetType: variable-aggregator
+        isInIteration: false
+        isInLoop: false
+    - id: image_default_source_image_aggregate
+      type: custom
+      source: image_default
+      sourceHandle: source
+      target: image_aggregate
+      targetHandle: target
+      selected: false
+      zIndex: 0
+      data:
+        sourceType: code
+        targetType: variable-aggregator
+        isInIteration: false
+        isInLoop: false
+    - id: behavior_route_true_behavior_analyze
+      type: custom
+      source: behavior_route
+      sourceHandle: 'true'
+      target: behavior_analyze
+      targetHandle: target
+      selected: false
+      zIndex: 0
+      data:
+        sourceType: if-else
+        targetType: code
+        isInIteration: false
+        isInLoop: false
+    - id: behavior_route_false_behavior_default
+      type: custom
+      source: behavior_route
+      sourceHandle: 'false'
+      target: behavior_default
+      targetHandle: target
+      selected: false
+      zIndex: 0
+      data:
+        sourceType: if-else
+        targetType: code
+        isInIteration: false
+        isInLoop: false
+    - id: behavior_analyze_source_behavior_aggregate
+      type: custom
+      source: behavior_analyze
+      sourceHandle: source
+      target: behavior_aggregate
+      targetHandle: target
+      selected: false
+      zIndex: 0
+      data:
+        sourceType: code
+        targetType: variable-aggregator
+        isInIteration: false
+        isInLoop: false
+    - id: behavior_default_source_behavior_aggregate
+      type: custom
+      source: behavior_default
+      sourceHandle: source
+      target: behavior_aggregate
+      targetHandle: target
+      selected: false
+      zIndex: 0
+      data:
+        sourceType: code
+        targetType: variable-aggregator
+        isInIteration: false
+        isInLoop: false
+    - id: text_aggregate_source_merge_profile
+      type: custom
+      source: text_aggregate
+      sourceHandle: source
+      target: merge_profile
+      targetHandle: target
+      selected: false
+      zIndex: 0
+      data:
+        sourceType: variable-aggregator
+        targetType: code
+        isInIteration: false
+        isInLoop: false
+    - id: image_aggregate_source_merge_profile
+      type: custom
+      source: image_aggregate
+      sourceHandle: source
+      target: merge_profile
+      targetHandle: target
+      selected: false
+      zIndex: 0
+      data:
+        sourceType: variable-aggregator
+        targetType: code
+        isInIteration: false
+        isInLoop: false
+    - id: behavior_aggregate_source_merge_profile
+      type: custom
+      source: behavior_aggregate
+      sourceHandle: source
+      target: merge_profile
+      targetHandle: target
+      selected: false
+      zIndex: 0
+      data:
+        sourceType: variable-aggregator
+        targetType: code
+        isInIteration: false
+        isInLoop: false
+    - id: merge_profile_source_quality_gate
+      type: custom
+      source: merge_profile
+      sourceHandle: source
+      target: quality_gate
+      targetHandle: target
+      selected: false
+      zIndex: 0
+      data:
+        sourceType: code
+        targetType: code
+        isInIteration: false
+        isInLoop: false
+    - id: quality_gate_source_end
+      type: custom
+      source: quality_gate
+      sourceHandle: source
+      target: end
+      targetHandle: target
+      selected: false
+      zIndex: 0
+      data:
+        sourceType: code
+        targetType: end
+        isInIteration: false
+        isInLoop: false
+    nodes:
+    - id: start
+      type: custom
+      data:
+        type: start
+        title: 画像任务输入
+        selected: false
+        variables:
+        - variable: payload
+          label: 用户数据 JSON
+          type: paragraph
+          required: true
+          max_length: 200000
+          default: ''
+          options: []
+        - variable: image_files
+          label: 参考图片
+          type: file-list
+          required: false
+          default: ''
+          options: []
+          hide: false
+          allowed_file_types:
+          - image
+          allowed_file_extensions: []
+          allowed_file_upload_methods:
+          - local_file
+          - remote_url
+      position:
+        x: 0
+        y: 400
+      positionAbsolute:
+        x: 0
+        y: 400
+      width: 242
+      height: 115
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      zIndex: 0
+    - id: preprocess
+      type: custom
+      data:
+        type: code
+        title: 输入解析与隐私边界
+        desc: 解析消息、图片、行为事件、当前画像、历史摘要和用户授权。
+        code_language: python3
+        code: "import json\n\n\ndef main(raw_payload, image_files):\n    raw = str(raw_payload\
+          \ or \"\").strip()\n    try:\n        payload = json.loads(raw or \"{}\"\
+          )\n    except Exception:\n        payload = {\n            \"user_id\":\
+          \ \"manual-preview\",\n            \"current_profile\": {},\n          \
+          \  \"history_summary\": \"\",\n            \"new_messages\": [{\"message_id\"\
+          : \"manual-1\", \"message_type\": \"text\", \"content\": raw}],\n      \
+          \      \"behavior_events\": [],\n            \"consent\": {\"profile_analysis\"\
+          : True},\n        }\n    if not isinstance(payload, dict):\n        payload\
+          \ = {}\n\n    messages = payload.get(\"new_messages\") if isinstance(payload.get(\"\
+          new_messages\"), list) else []\n    behaviors = payload.get(\"behavior_events\"\
+          ) if isinstance(payload.get(\"behavior_events\"), list) else []\n    text_items,\
+          \ image_items = [], []\n    for index, item in enumerate(messages):\n  \
+          \      if not isinstance(item, dict):\n            continue\n        message_id\
+          \ = str(item.get(\"message_id\") or \"message-%s\" % (index + 1))\n    \
+          \    message_type = str(item.get(\"message_type\") or \"text\").lower()\n\
+          \        base = {\n            \"message_id\": message_id,\n           \
+          \ \"sender_type\": str(item.get(\"sender_type\") or \"customer\"),\n   \
+          \         \"sent_at\": str(item.get(\"sent_at\") or \"\"),\n        }\n\
+          \        if message_type == \"text\":\n            content = str(item.get(\"\
+          content\") or \"\").strip()\n            if content:\n                text_items.append(dict(base,\
+          \ content=content))\n        elif message_type in {\"image\", \"emotion\"\
+          }:\n            media_url = str(item.get(\"media_url\") or \"\").strip()\n\
+          \            if media_url:\n                image_items.append(dict(base,\
+          \ media_url=media_url))\n\n    uploads = image_files if isinstance(image_files,\
+          \ list) else []\n    if not image_items:\n        for index, item in enumerate(uploads):\n\
+          \            if not isinstance(item, dict):\n                continue\n\
+          \            image_items.append({\n                \"message_id\": str(item.get(\"\
+          id\") or \"upload-%s\" % (index + 1)),\n                \"sender_type\"\
+          : \"customer\",\n                \"sent_at\": \"\",\n                \"\
+          media_url\": str(item.get(\"url\") or item.get(\"remote_url\") or \"\"),\n\
+          \                \"file_name\": str(item.get(\"name\") or item.get(\"filename\"\
+          ) or \"\"),\n            })\n\n    common = {\n        \"user_id\": str(payload.get(\"\
+          user_id\") or payload.get(\"relation_id\") or \"\"),\n        \"current_profile\"\
+          : payload.get(\"current_profile\") if isinstance(payload.get(\"current_profile\"\
+          ), dict) else {},\n        \"history_summary\": str(payload.get(\"history_summary\"\
+          ) or \"\"),\n        \"consent\": payload.get(\"consent\") if isinstance(payload.get(\"\
+          consent\"), dict) else {},\n    }\n    return {\n        \"payload_json\"\
+          : json.dumps(payload, ensure_ascii=False),\n        \"text_context\": json.dumps(dict(common,\
+          \ messages=text_items), ensure_ascii=False),\n        \"image_context\"\
+          : json.dumps(dict(common, images=image_items), ensure_ascii=False),\n  \
+          \      \"behavior_context\": json.dumps(dict(common, events=behaviors),\
+          \ ensure_ascii=False),\n        \"has_text\": bool(text_items),\n      \
+          \  \"has_images\": bool(image_items),\n        \"has_behavior\": bool(behaviors),\n\
+          \    }\n"
+        variables:
+        - variable: raw_payload
+          value_selector:
+          - start
+          - payload
+        - variable: image_files
+          value_selector:
+          - start
+          - image_files
+        outputs:
+          payload_json:
+            type: string
+            children: null
+          text_context:
+            type: string
+            children: null
+          image_context:
+            type: string
+            children: null
+          behavior_context:
+            type: string
+            children: null
+          has_text:
+            type: boolean
+            children: null
+          has_images:
+            type: boolean
+            children: null
+          has_behavior:
+            type: boolean
+            children: null
+        selected: false
+      position:
+        x: 300
+        y: 400
+      positionAbsolute:
+        x: 300
+        y: 400
+      width: 242
+      height: 145
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      zIndex: 0
+    - id: text_route
+      type: custom
+      data:
+        type: if-else
+        title: 是否存在文本
+        cases:
+        - id: 'true'
+          case_id: 'true'
+          logical_operator: and
+          conditions:
+          - id: 9a2833e8-d78c-5127-9489-26772b5616b6
+            variable_selector:
+            - preprocess
+            - has_text
+            comparison_operator: is
+            value: true
+            varType: boolean
+        selected: false
+      position:
+        x: 600
+        y: 60
+      positionAbsolute:
+        x: 600
+        y: 60
+      width: 242
+      height: 150
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      zIndex: 0
+    - id: text_analyze
+      type: custom
+      data:
+        type: llm
+        title: 文本画像分析
+        model:
+          completion_params:
+            temperature: 0.1
+          mode: chat
+          name: REPLACE_WITH_MODEL_NAME
+          provider: REPLACE_WITH_MODEL_PROVIDER
+        context:
+          enabled: false
+          variable_selector: []
+        memory:
+          window:
+            enabled: false
+            size: 0
+          query_prompt_template: ''
+          role_prefix:
+            user: ''
+            assistant: ''
+        prompt_template:
+        - id: 409b3236-818c-5ed7-9eac-a7d66377c696
+          role: system
+          text: "你是用户画像分析器。根据当前画像、历史摘要和新增文本消息生成“增量画像”，只提取用户明确表达或有直接证据支持的信息。\n\n禁止推断或输出身份证号、精确地址、健康、宗教、政治、种族、性取向、账户密码等敏感属性。禁止把客服或系统消息当作用户偏好。\n\
+            每个画像条目必须带 evidence_message_ids 和 0 到 1 的 confidence；推断性结论 confidence 不得高于\
+            \ 0.7。冲突信息不要强行覆盖，写入 conflicts。\n\n只输出合法 JSON：\n{\n  \"profile_patch\"\
+            : {},\n  \"profile_items\": [{\"key\":\"\",\"value\":\"\",\"confidence\"\
+            :0.0,\"evidence_message_ids\":[],\"source\":\"text\"}],\n  \"tags\": [],\n\
+            \  \"segments\": [],\n  \"needs\": [],\n  \"pain_points\": [],\n  \"intent_level\"\
+            : \"low|medium|high\",\n  \"intent_score\": 0,\n  \"lifecycle_stage\"\
+            : \"unknown|lead|considering|ready|customer|retention\",\n  \"conflicts\"\
+            : [],\n  \"evidence_message_ids\": [],\n  \"updated_summary\": \"\",\n\
+            \  \"next_best_action\": \"\"\n}"
+        - id: 68bdfd6b-ce9d-56fc-8a15-e4e89d7acdcd
+          role: user
+          text: '画像上下文：
+
+            {{#preprocess.text_context#}}'
+        vision:
+          enabled: false
+        selected: false
+      position:
+        x: 900
+        y: 0
+      positionAbsolute:
+        x: 900
+        y: 0
+      width: 242
+      height: 100
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      zIndex: 0
+    - id: text_default
+      type: custom
+      data:
+        type: code
+        title: 无文本默认结果
+        desc: 该数据分支无输入时返回稳定空对象。
+        code_language: python3
+        code: "import json\n\n\ndef main():\n    return {\"result\": json.dumps({\n\
+          \        \"profile_patch\": {}, \"profile_items\": [], \"tags\": [], \"\
+          segments\": [],\n        \"needs\": [], \"pain_points\": [], \"conflicts\"\
+          : [], \"evidence_message_ids\": [],\n        \"visual_preferences\": [],\
+          \ \"product_clues\": [], \"reference_image_intent\": \"\",\n        \"updated_summary\"\
+          : \"\", \"next_best_action\": \"\",\n    }, ensure_ascii=False)}\n"
+        variables: []
+        outputs:
+          result:
+            type: string
+            children: null
+        selected: false
+      position:
+        x: 900
+        y: 190
+      positionAbsolute:
+        x: 900
+        y: 190
+      width: 242
+      height: 105
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      zIndex: 0
+    - id: text_aggregate
+      type: custom
+      data:
+        type: variable-aggregator
+        title: 文本结果聚合
+        desc: 合并互斥的文本分析与默认分支。
+        output_type: string
+        variables:
+        - - text_analyze
+          - text
+        - - text_default
+          - result
+        selected: false
+      position:
+        x: 1200
+        y: 80
+      positionAbsolute:
+        x: 1200
+        y: 80
+      width: 242
+      height: 110
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      zIndex: 0
+    - id: image_route
+      type: custom
+      data:
+        type: if-else
+        title: 是否存在图片
+        cases:
+        - id: 'true'
+          case_id: 'true'
+          logical_operator: and
+          conditions:
+          - id: e21bd124-a917-5ec9-a824-9a7457795ac6
+            variable_selector:
+            - preprocess
+            - has_images
+            comparison_operator: is
+            value: true
+            varType: boolean
+        selected: false
+      position:
+        x: 600
+        y: 390
+      positionAbsolute:
+        x: 600
+        y: 390
+      width: 242
+      height: 150
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      zIndex: 0
+    - id: image_analyze
+      type: custom
+      data:
+        type: llm
+        title: 图片偏好分析
+        model:
+          completion_params:
+            temperature: 0.1
+          mode: chat
+          name: REPLACE_WITH_MODEL_NAME
+          provider: REPLACE_WITH_MODEL_PROVIDER
+        context:
+          enabled: false
+          variable_selector: []
+        memory:
+          window:
+            enabled: false
+            size: 0
+          query_prompt_template: ''
+          role_prefix:
+            user: ''
+            assistant: ''
+        prompt_template:
+        - id: a2db83de-ce96-5996-8dc5-16d24cdb4f6c
+          role: system
+          text: "你是用户图片偏好分析器。仅依据本次上传图片和图片消息元数据，分析可用于服务推荐的视觉偏好、参考图用途和产品线索。\n不得做人脸识别，不得推断身份、年龄、性别、种族、健康、精确位置等敏感属性；看不清或证据不足时留空。\n\
+            \n只输出合法 JSON：\n{\n  \"visual_preferences\": [],\n  \"product_clues\":\
+            \ [],\n  \"reference_image_intent\": \"\",\n  \"profile_items\": [{\"\
+            key\":\"visual_preference\",\"value\":\"\",\"confidence\":0.0,\"evidence_message_ids\"\
+            :[],\"source\":\"image\"}],\n  \"tags\": [],\n  \"conflicts\": [],\n \
+            \ \"evidence_message_ids\": [],\n  \"next_best_action\": \"\"\n}"
+        - id: 5e3a6fc2-bff8-513f-afa3-efaf0006345a
+          role: user
+          text: '图片消息上下文：
+
+            {{#preprocess.image_context#}}'
+        vision:
+          enabled: true
+          configs:
+            variable_selector:
+            - start
+            - image_files
+        selected: false
+      position:
+        x: 900
+        y: 340
+      positionAbsolute:
+        x: 900
+        y: 340
+      width: 242
+      height: 100
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      zIndex: 0
+    - id: image_default
+      type: custom
+      data:
+        type: code
+        title: 无图片默认结果
+        desc: 该数据分支无输入时返回稳定空对象。
+        code_language: python3
+        code: "import json\n\n\ndef main():\n    return {\"result\": json.dumps({\n\
+          \        \"profile_patch\": {}, \"profile_items\": [], \"tags\": [], \"\
+          segments\": [],\n        \"needs\": [], \"pain_points\": [], \"conflicts\"\
+          : [], \"evidence_message_ids\": [],\n        \"visual_preferences\": [],\
+          \ \"product_clues\": [], \"reference_image_intent\": \"\",\n        \"updated_summary\"\
+          : \"\", \"next_best_action\": \"\",\n    }, ensure_ascii=False)}\n"
+        variables: []
+        outputs:
+          result:
+            type: string
+            children: null
+        selected: false
+      position:
+        x: 900
+        y: 530
+      positionAbsolute:
+        x: 900
+        y: 530
+      width: 242
+      height: 105
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      zIndex: 0
+    - id: image_aggregate
+      type: custom
+      data:
+        type: variable-aggregator
+        title: 图片结果聚合
+        desc: 合并互斥的图片分析与默认分支。
+        output_type: string
+        variables:
+        - - image_analyze
+          - text
+        - - image_default
+          - result
+        selected: false
+      position:
+        x: 1200
+        y: 420
+      positionAbsolute:
+        x: 1200
+        y: 420
+      width: 242
+      height: 110
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      zIndex: 0
+    - id: behavior_route
+      type: custom
+      data:
+        type: if-else
+        title: 是否存在行为事件
+        cases:
+        - id: 'true'
+          case_id: 'true'
+          logical_operator: and
+          conditions:
+          - id: ddabb585-3d00-5ae9-9c87-9a01c0e668ea
+            variable_selector:
+            - preprocess
+            - has_behavior
+            comparison_operator: is
+            value: true
+            varType: boolean
+        selected: false
+      position:
+        x: 600
+        y: 720
+      positionAbsolute:
+        x: 600
+        y: 720
+      width: 242
+      height: 150
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      zIndex: 0
+    - id: behavior_analyze
+      type: custom
+      data:
+        type: code
+        title: 行为意向评分
+        desc: 用确定性规则计算行为强度、兴趣产品和下一步动作。
+        code_language: python3
+        code: "import json\nfrom collections import Counter\n\n\ndef main(behavior_context):\n\
+          \    try:\n        context = json.loads(str(behavior_context or \"{}\"))\n\
+          \    except Exception:\n        context = {}\n    events = context.get(\"\
+          events\") if isinstance(context.get(\"events\"), list) else []\n    types,\
+          \ products, evidence = Counter(), Counter(), []\n    recency_weighted_score\
+          \ = 0\n    weights = {\"purchase\": 40, \"checkout\": 25, \"add_to_cart\"\
+          : 18, \"inquiry\": 15, \"favorite\": 10, \"view\": 3}\n    for item in events:\n\
+          \        if not isinstance(item, dict):\n            continue\n        event_type\
+          \ = str(item.get(\"event_type\") or item.get(\"type\") or \"unknown\").lower()\n\
+          \        types[event_type] += 1\n        product = str(item.get(\"product\"\
+          ) or item.get(\"product_id\") or \"\").strip()\n        if product:\n  \
+          \          products[product] += 1\n        event_id = str(item.get(\"event_id\"\
+          ) or \"\").strip()\n        if event_id:\n            evidence.append(event_id)\n\
+          \        recency_weighted_score += weights.get(event_type, 1)\n    intent_score\
+          \ = min(100, recency_weighted_score)\n    level = \"high\" if intent_score\
+          \ >= 45 else \"medium\" if intent_score >= 18 else \"low\"\n    top_products\
+          \ = [name for name, _ in products.most_common(5)]\n    tags = [\"behavior:%s\"\
+          \ % name for name, count in types.most_common(3) if name != \"unknown\"\
+          \ and count]\n    result = {\n        \"behavior_summary\": {\"event_count\"\
+          : len(events), \"event_types\": dict(types), \"top_products\": top_products},\n\
+          \        \"intent_score\": intent_score,\n        \"intent_level\": level,\n\
+          \        \"tags\": tags,\n        \"segments\": [\"high_intent\"] if level\
+          \ == \"high\" else [\"engaged\"] if level == \"medium\" else [],\n     \
+          \   \"profile_items\": ([{\"key\": \"interested_products\", \"value\": top_products,\
+          \ \"confidence\": 0.75, \"evidence_event_ids\": evidence, \"source\": \"\
+          behavior\"}] if top_products else []),\n        \"evidence_event_ids\":\
+          \ list(dict.fromkeys(evidence)),\n        \"next_best_action\": \"优先跟进高意向行为\"\
+          \ if level == \"high\" else \"根据近期浏览内容提供相关推荐\" if events else \"\",\n  \
+          \  }\n    return {\"result\": json.dumps(result, ensure_ascii=False)}\n"
+        variables:
+        - variable: behavior_context
+          value_selector:
+          - preprocess
+          - behavior_context
+        outputs:
+          result:
+            type: string
+            children: null
+        selected: false
+      position:
+        x: 900
+        y: 680
+      positionAbsolute:
+        x: 900
+        y: 680
+      width: 242
+      height: 120
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      zIndex: 0
+    - id: behavior_default
+      type: custom
+      data:
+        type: code
+        title: 无行为默认结果
+        desc: 该数据分支无输入时返回稳定空对象。
+        code_language: python3
+        code: "import json\n\n\ndef main():\n    return {\"result\": json.dumps({\n\
+          \        \"profile_patch\": {}, \"profile_items\": [], \"tags\": [], \"\
+          segments\": [],\n        \"needs\": [], \"pain_points\": [], \"conflicts\"\
+          : [], \"evidence_message_ids\": [],\n        \"visual_preferences\": [],\
+          \ \"product_clues\": [], \"reference_image_intent\": \"\",\n        \"updated_summary\"\
+          : \"\", \"next_best_action\": \"\",\n    }, ensure_ascii=False)}\n"
+        variables: []
+        outputs:
+          result:
+            type: string
+            children: null
+        selected: false
+      position:
+        x: 900
+        y: 870
+      positionAbsolute:
+        x: 900
+        y: 870
+      width: 242
+      height: 105
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      zIndex: 0
+    - id: behavior_aggregate
+      type: custom
+      data:
+        type: variable-aggregator
+        title: 行为结果聚合
+        desc: 合并互斥的行为评分与默认分支。
+        output_type: string
+        variables:
+        - - behavior_analyze
+          - result
+        - - behavior_default
+          - result
+        selected: false
+      position:
+        x: 1200
+        y: 760
+      positionAbsolute:
+        x: 1200
+        y: 760
+      width: 242
+      height: 110
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      zIndex: 0
+    - id: merge_profile
+      type: custom
+      data:
+        type: code
+        title: 多模态画像合并
+        desc: 合并现有画像与三路增量，去重、过滤敏感字段、保留证据和冲突。
+        code_language: python3
+        code: "import json\nimport re\n\n\nSENSITIVE_KEYS = {\n    \"id_card\", \"\
+          identity_number\", \"exact_address\", \"password\", \"health\",\n    \"\
+          religion\", \"political_view\", \"race\", \"sexual_orientation\",\n}\n\n\
+          \ndef load(value):\n    text = re.sub(r\"^```(?:json)?\\s*|\\s*```$\", \"\
+          \", str(value or \"\").strip(), flags=re.I)\n    start, end = text.find(\"\
+          {\"), text.rfind(\"}\")\n    if start < 0 or end <= start:\n        return\
+          \ {}\n    try:\n        result = json.loads(text[start:end + 1])\n     \
+          \   return result if isinstance(result, dict) else {}\n    except Exception:\n\
+          \        return {}\n\n\ndef unique(values):\n    result = []\n    for item\
+          \ in values:\n        marker = json.dumps(item, ensure_ascii=False, sort_keys=True)\
+          \ if isinstance(item, (dict, list)) else str(item)\n        if marker not\
+          \ in {json.dumps(v, ensure_ascii=False, sort_keys=True) if isinstance(v,\
+          \ (dict, list)) else str(v) for v in result}:\n            result.append(item)\n\
+          \    return result\n\n\ndef main(payload_json, text_analysis, image_analysis,\
+          \ behavior_analysis):\n    payload = load(payload_json)\n    text_data =\
+          \ load(text_analysis)\n    image_data = load(image_analysis)\n    behavior_data\
+          \ = load(behavior_analysis)\n    current = payload.get(\"current_profile\"\
+          ) if isinstance(payload.get(\"current_profile\"), dict) else {}\n    profile\
+          \ = {k: v for k, v in current.items() if str(k).lower() not in SENSITIVE_KEYS}\n\
+          \    patch = text_data.get(\"profile_patch\") if isinstance(text_data.get(\"\
+          profile_patch\"), dict) else {}\n    for key, value in patch.items():\n\
+          \        if str(key).lower() not in SENSITIVE_KEYS and value not in (None,\
+          \ \"\", [], {}):\n            profile[str(key)] = value\n\n    items = []\n\
+          \    for source in (text_data, image_data, behavior_data):\n        for\
+          \ item in source.get(\"profile_items\", []) if isinstance(source.get(\"\
+          profile_items\"), list) else []:\n            if not isinstance(item, dict)\
+          \ or str(item.get(\"key\") or \"\").lower() in SENSITIVE_KEYS:\n       \
+          \         continue\n            try:\n                confidence = max(0.0,\
+          \ min(1.0, float(item.get(\"confidence\", 0))))\n            except Exception:\n\
+          \                confidence = 0.0\n            cleaned = dict(item)\n  \
+          \          cleaned[\"confidence\"] = confidence\n            if cleaned.get(\"\
+          value\") not in (None, \"\", [], {}):\n                items.append(cleaned)\n\
+          \n    tags, segments, conflicts = [], [], []\n    for source in (text_data,\
+          \ image_data, behavior_data):\n        tags.extend(source.get(\"tags\",\
+          \ []) if isinstance(source.get(\"tags\"), list) else [])\n        segments.extend(source.get(\"\
+          segments\", []) if isinstance(source.get(\"segments\"), list) else [])\n\
+          \        conflicts.extend(source.get(\"conflicts\", []) if isinstance(source.get(\"\
+          conflicts\"), list) else [])\n    intent_score = behavior_data.get(\"intent_score\"\
+          , text_data.get(\"intent_score\", 0))\n    try:\n        intent_score =\
+          \ max(0, min(100, int(float(intent_score))))\n    except Exception:\n  \
+          \      intent_score = 0\n    intent_level = behavior_data.get(\"intent_level\"\
+          ) or text_data.get(\"intent_level\") or \"low\"\n\n    summaries = [str(payload.get(\"\
+          history_summary\") or \"\").strip(), str(text_data.get(\"updated_summary\"\
+          ) or \"\").strip()]\n    summary = \"；\".join(unique([item for item in summaries\
+          \ if item]))[:500]\n    evidence_messages, evidence_events = [], []\n  \
+          \  for source in (text_data, image_data):\n        evidence_messages.extend(source.get(\"\
+          evidence_message_ids\", []) if isinstance(source.get(\"evidence_message_ids\"\
+          ), list) else [])\n    evidence_events.extend(behavior_data.get(\"evidence_event_ids\"\
+          , []) if isinstance(behavior_data.get(\"evidence_event_ids\"), list) else\
+          \ [])\n    next_action = str(\n        behavior_data.get(\"next_best_action\"\
+          )\n        or text_data.get(\"next_best_action\")\n        or image_data.get(\"\
+          next_best_action\")\n        or \"\"\n    ).strip()\n    consent = payload.get(\"\
+          consent\") if isinstance(payload.get(\"consent\"), dict) else {}\n    profile_allowed\
+          \ = consent.get(\"profile_analysis\", True) is not False\n    result = {\n\
+          \        \"schema_version\": \"1.0\",\n        \"user_id\": str(payload.get(\"\
+          user_id\") or payload.get(\"relation_id\") or \"\"),\n        \"profile_patch\"\
+          : profile if profile_allowed else {},\n        \"profile_items\": unique(items)\
+          \ if profile_allowed else [],\n        \"tags\": unique([str(v) for v in\
+          \ tags if str(v).strip()]) if profile_allowed else [],\n        \"segments\"\
+          : unique([str(v) for v in segments if str(v).strip()]) if profile_allowed\
+          \ else [],\n        \"needs\": unique(text_data.get(\"needs\", []) if isinstance(text_data.get(\"\
+          needs\"), list) else []) if profile_allowed else [],\n        \"pain_points\"\
+          : unique(text_data.get(\"pain_points\", []) if isinstance(text_data.get(\"\
+          pain_points\"), list) else []) if profile_allowed else [],\n        \"intent_level\"\
+          : intent_level if profile_allowed else \"low\",\n        \"intent_score\"\
+          : intent_score if profile_allowed else 0,\n        \"lifecycle_stage\":\
+          \ str(text_data.get(\"lifecycle_stage\") or \"unknown\") if profile_allowed\
+          \ else \"unknown\",\n        \"visual_preferences\": unique(image_data.get(\"\
+          visual_preferences\", []) if isinstance(image_data.get(\"visual_preferences\"\
+          ), list) else []) if profile_allowed else [],\n        \"product_clues\"\
+          : unique(image_data.get(\"product_clues\", []) if isinstance(image_data.get(\"\
+          product_clues\"), list) else []) if profile_allowed else [],\n        \"\
+          reference_image_intent\": str(image_data.get(\"reference_image_intent\"\
+          ) or \"\") if profile_allowed else \"\",\n        \"conflicts\": unique(conflicts)\
+          \ if profile_allowed else [],\n        \"evidence_message_ids\": unique([str(v)\
+          \ for v in evidence_messages if str(v).strip()]) if profile_allowed else\
+          \ [],\n        \"evidence_event_ids\": unique([str(v) for v in evidence_events\
+          \ if str(v).strip()]) if profile_allowed else [],\n        \"updated_summary\"\
+          : summary if profile_allowed else \"\",\n        \"next_best_action\": next_action\
+          \ if profile_allowed else \"\",\n        \"processing_meta\": {\n      \
+          \      \"text_used\": bool(text_data.get(\"profile_items\") or text_data.get(\"\
+          profile_patch\")),\n            \"image_used\": bool(image_data.get(\"profile_items\"\
+          ) or image_data.get(\"visual_preferences\")),\n            \"behavior_used\"\
+          : bool(behavior_data.get(\"behavior_summary\")),\n            \"consent_applied\"\
+          : profile_allowed,\n        },\n    }\n    return {\"result\": json.dumps(result,\
+          \ ensure_ascii=False)}\n"
+        variables:
+        - variable: payload_json
+          value_selector:
+          - preprocess
+          - payload_json
+        - variable: text_analysis
+          value_selector:
+          - text_aggregate
+          - output
+        - variable: image_analysis
+          value_selector:
+          - image_aggregate
+          - output
+        - variable: behavior_analysis
+          value_selector:
+          - behavior_aggregate
+          - output
+        outputs:
+          result:
+            type: string
+            children: null
+        selected: false
+      position:
+        x: 1500
+        y: 400
+      positionAbsolute:
+        x: 1500
+        y: 400
+      width: 242
+      height: 145
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      zIndex: 0
+    - id: quality_gate
+      type: custom
+      data:
+        type: code
+        title: 输出质量门
+        desc: 检查稳定契约、标记降级结果和需要人工复核的冲突。
+        code_language: python3
+        code: "import json\n\n\nREQUIRED = {\n    \"schema_version\", \"user_id\"\
+          , \"profile_patch\", \"profile_items\", \"tags\",\n    \"segments\", \"\
+          intent_level\", \"intent_score\", \"updated_summary\",\n    \"next_best_action\"\
+          , \"processing_meta\",\n}\n\n\ndef main(merged_result):\n    try:\n    \
+          \    data = json.loads(str(merged_result or \"{}\"))\n    except Exception:\n\
+          \        data = {}\n    missing = sorted(REQUIRED - set(data))\n    data[\"\
+          quality\"] = {\n        \"status\": \"degraded\" if missing else \"passed\"\
+          ,\n        \"missing_fields\": missing,\n        \"review_required\": bool(data.get(\"\
+          conflicts\")) or data.get(\"intent_score\", 0) >= 90,\n    }\n    return\
+          \ {\"result\": json.dumps(data, ensure_ascii=False)}\n"
+        variables:
+        - variable: merged_result
+          value_selector:
+          - merge_profile
+          - result
+        outputs:
+          result:
+            type: string
+            children: null
+        selected: false
+      position:
+        x: 1800
+        y: 400
+      positionAbsolute:
+        x: 1800
+        y: 400
+      width: 242
+      height: 120
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      zIndex: 0
+    - id: end
+      type: custom
+      data:
+        type: end
+        title: 画像结果
+        selected: false
+        outputs:
+        - variable: result
+          value_selector:
+          - quality_gate
+          - result
+          value_type: string
+      position:
+        x: 2100
+        y: 400
+      positionAbsolute:
+        x: 2100
+        y: 400
+      width: 242
+      height: 90
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      zIndex: 0
+    viewport:
+      x: 40
+      y: 40
+      zoom: 0.7
+  rag_pipeline_variables: []
